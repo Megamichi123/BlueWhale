@@ -9,10 +9,11 @@
 <br><br>
 
 <h1 align="center">Table of content:</h1>
-- <a href="#disclaimer">Disclaimer</a>
-- <a href="#features">Features</a>
-- <a href="#requirements">Requirements</a>
-- <a href="#installation">Installation</a>
+
+- <a href="#disclaimer">Disclaimer</a>  
+- <a href="#features">Features</a>  
+- <a href="#requirements">Requirements</a>  
+- <a href="#installation">Installation</a>  
 
 
 <h1 align="center">Disclaimer</h1>
@@ -24,7 +25,7 @@
 - This Fork removed every Illegal Function out of RedTiger.
 - > ```
   > But if you want to use RedTiger tools with the venv Feature, simply clone RedTiger into the "scripts" directory.
-  > and in BlueWhale: **$ rt**
+  > and in BlueWhale: "$ rt"
   >  ```
 - By choosing to use BlueWhale, you acknowledge and accept full responsibility for any consequences that may result from your actions.
 
@@ -129,7 +130,7 @@
 ```
 1 - Download the .zip folder.
 2 - Unzip the folder.
-3 - Launch "Setup.py".
+3 - Launch "setup.py".
 ```
 Or
 ```
