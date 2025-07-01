@@ -13,6 +13,7 @@ from configs.menu_builder import *
 import os
 import sys
 import re
+import webbrowser
 try:
     import requests
 except:
@@ -27,7 +28,7 @@ t_len = (line_len//3)-2
 
 # activating venv
 if os_name == "Linux":venv_python = os.path.join(tool_path, ".venv", "bin", "python3")
-else:venv_python = os.path.join(tool_path, ".venv", "Scripts", "python3.exe")
+else:venv_python = os.path.join(tool_path, ".venv", "Scripts", "python.exe")
 if not os.path.exists(venv_python):print("#>  Please run the setup.py")
 elif sys.executable != venv_python:os.execv(venv_python, [venv_python] + sys.argv)
 
@@ -72,7 +73,7 @@ options = [
         [
             (41, "Discord-Server-Info"),
             (42, "Discord-Webhook-Info"),
-            (43, "Discord-Webhook-Generator"),
+            (42, "Discord-Token-Info"),
         ],
     ],
 ]
@@ -160,24 +161,19 @@ def menu_builder(menu_index):
 
 # REDTIGER
 rt_detected = os.path.exists(os.path.join(scripts_path,"RedTiger-Tools"))
-print(rt_detected)
 if rt_detected:
     options[0][0].append((0,"RedTiger ($ rt)"))
 
 
 # UPDATE
 try:
-    #new_version = re.search(r'version\s*=\s*"([^"]+)"', requests.get(config_url).text).group(1)
-    new_version = "0.1.0"
-except: new_version = version
-
-if new_version != version:
-    options[0][0].append((0,"Update available! ($ up)"))
-    #webbrowser.open(github_url)
-    #input(f"{BEFORE + current_time_hour() + AFTER} {INFO} Please install the new version of the tool: {white + version_tool + red} -> {white + new_version} ")
-    v = f"New Version: {version} -> {new_version}"
-    Clear()
-else: v = version
+    new_version = re.search(r'version\s*=\s*"([^"]+)"', requests.get(config_url).text).group(1)
+    if version != new_version:
+        options[0][0].append((0,"Update available! ($ up)"))
+        v = f"New Version: {version} -> {new_version}"
+        Clear()
+except:
+    v = version
 
 menu_index = 0
 if __name__ == "__main__":
@@ -186,7 +182,7 @@ if __name__ == "__main__":
 
         Title(f"Menu {menu_index}")
         print(StyleText(CenterMultilineText(banner,line_len)))
-        print(StyleText(CenterMultilineText(v,line_len)))
+        print(StyleText(CenterMultilineText("Version: "+v,line_len)))
         print(menu_head_builder(menu_index))
         print(menu_builder(menu_index))
         choice = input(
@@ -206,10 +202,6 @@ if __name__ == "__main__":
         elif choice in ["Q", "q", "exit", "quit"]:
             exit()
 
-        elif choice in ["I", "i", "INFO", "Info", "info"]:
-            StartScript(os.path.join("intscripts", "info"))
-            Continue()
-
         elif choice.isdigit():
             StartScript(get_tool_script_name(int(choice)))
         
@@ -222,6 +214,13 @@ if __name__ == "__main__":
                 print(rt_error)
             Continue()
 
+
+        # Internal Scripts
+
+        elif choice in ["I", "i", "INFO", "Info", "info"]:
+            StartScript(os.path.join("intscripts", "info"))
+            Continue()
+
         elif choice == "env":
             print(f"Inside {tool_name}:",sys.executable)
             StartScript(os.path.join("intscripts", "env-check"))
@@ -229,5 +228,16 @@ if __name__ == "__main__":
 
         elif choice == "text":
             StartScript(os.path.join("intscripts", "text-style-check"))
+            Continue()
+        
+        elif choice == "up":
+            if new_version:
+                print(f"{BEFORE + current_time_hour() + AFTER} {INFO} Please install the new version of the tool: {white + version} -> {green + new_version}")
+                print(f"{BEFORE + current_time_hour() + AFTER} {INFO}     or run \"git pull\" ...")
+
+                if "y" in input(f"{BEFORE + current_time_hour() + AFTER} {INPUT} Do u want to open the GitHub Page? (y/n): "):
+                    webbrowser.open(github_url)
+            else:
+                print(f"{BEFORE + current_time_hour() + AFTER} {INFO} there is no update ;)")
             Continue()
 

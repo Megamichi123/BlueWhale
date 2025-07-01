@@ -48,18 +48,6 @@ elif sys.platform.startswith("linux") or sys.platform.startswith("Linux"):
 else:
     os_name = "Unknown"
 
-def activate_venv(argv):
-    if os_name == "Linux":
-        venv_python = os.path.join(tool_path, ".venv", "bin", "python3")
-    else:
-        venv_python = os.path.join(tool_path, ".venv", "Scripts", "python3.exe")
-
-    if not os.path.exists(venv_python):
-        print("#>  Please run the setup.py")
-    elif sys.executable != venv_python:
-        os.execv(venv_python, [venv_python] + argv)
-
-
 def current_time_day_hour():
     return datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
